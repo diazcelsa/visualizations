@@ -10,3 +10,4 @@ statsmodels==0.6.1
 googlemaps==2.4.6
 xlrd
 folium
+tabula-py
