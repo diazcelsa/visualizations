@@ -11,3 +11,5 @@ googlemaps==2.4.6
 xlrd
 folium
 tabula-py
+altair
+squarify
