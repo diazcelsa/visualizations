@@ -1,5 +1,5 @@
 class TraceBuilder:
-    def __init__(self, x, y, name, hover_text, trace=None):
+    def __init__(self, x, y, name="", hover_text="", legendgroup="", trace=None):
         # Create new trace mode
         if not trace:
             self.trace = {}
@@ -10,27 +10,31 @@ class TraceBuilder:
         self.x = x
         self.y = y
         self.name = name
+        self.legengroup = legendgroup
         self.hover_text = hover_text
 
     def bar_plot(self):
-        return self.trace.update({
+        self.trace.update({
             "type": "bar",
             "text": self.hover_text,
             "x": self.x,
             "y": self.y,
             "name": self.name,
-            "hovertext": self.hover_text
+            "legendgroup": self.legengroup
         })
+        return self.trace
 
     def line_plot(self, mode="lines"):
-        return self.trace.update({
+        self.trace.update({
             "mode": mode,  # one can also choose lines+markers/markers mode
             "text": self.hover_text,
             "x": self.x,
             "y": self.y,
             "name": self.name,
+            "legendgroup": self.legengroup,
             "hovertext": self.hover_text
         })
+        return self.trace
 
     def area_plot(self):
         pass
@@ -59,9 +63,9 @@ class TraceDesign:
     def __init__(self, trace):
         self.trace = trace
 
-    def markers(self, color, smoothing_level=0, mode="simple", symbol='square-open', size=4, color_line="black",
-                width_line=2, opacity=0.8):
-        return {
+    def marker(self, color, smoothing_level=0, mode="simple", symbol='square-open', size=4, color_line="black",
+               width_line=2, opacity=0.8):
+        self.trace.update({
             "markers": {
                 "symbol": symbol,
                 "size": size,
@@ -73,7 +77,8 @@ class TraceDesign:
                 }
             },
             "opacity": opacity
-        }
+        })
+        return self.trace
 
     def smoothing(self, smoothing_level, mode):
         # TODO: develop method for smoothing with moving average
@@ -83,12 +88,14 @@ class TraceDesign:
     def hover(self, hoverinfo="x+y+text", tickmode="auto"):
         # hoverinfo options: x, y, name, all, none, text
         # TODO: add 'tickmode': 'array', 'tickvals': [integers at positions desired list], 'ticktext' option
-        return self.trace.update({
+        self.trace.update({
             "hoverinfo": hoverinfo,
             'tickmode': tickmode})
+        return self.trace
 
     def font(self, text_font_color="black", family="Helvetica", size=8):
-        return self.trace.update({
+        self.trace.update({
             'textfont': {'color': text_font_color,
                          'family': family,
                          'size': size}})
+        return self.trace
